@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useState   }from 'react'
 import loginService from '../services/login'
 import blogService from '../services/blogs'
+import PropTypes from 'prop-types'
 
-const LoginForm = ({setUser, setErrorMessage, setNotificationType}) => {
-  
-  
+const LoginForm = ({ setUser, setErrorMessage, setNotificationType }) => {
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
 
@@ -22,7 +22,7 @@ const LoginForm = ({setUser, setErrorMessage, setNotificationType}) => {
       setUsername('')
       setPassword('')
       blogService.setToken(user.token)
-    } catch (exception) {
+    }catch (exception) {
       console.log('hello')
       setErrorMessage('wrong credentials')
       setNotificationType('error')
@@ -34,30 +34,36 @@ const LoginForm = ({setUser, setErrorMessage, setNotificationType}) => {
     }
   }
   return (
-      <div>
-        <form onSubmit={handleLogin}>
+    <div>
+      <form onSubmit={ handleLogin }>
         <div>
           username
-            <input
+          <input
             type="text"
-            value={username}
+            value={ username }
             name="Username"
-            onChange={({ target }) => setUsername(target.value)}
+            onChange={ ({  target  }) => setUsername(target.value) }
           />
         </div>
         <div>
           password
-            <input
+          <input
             type="password"
-            value={password}
+            value={ password }
             name="Password"
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={ ({  target  }) => setPassword(target.value) }
           />
         </div>
         <button type="submit">login</button>
       </form>
-      </div>
-    )
-  }
+    </div>
+  )
+}
 
-  export default LoginForm
+LoginForm.PropsType = {
+  setUser: PropTypes.func.isRequired,
+  setErrorMessage: PropTypes.func.isRequired,
+  setNotificationType: PropTypes.func.isRequired
+}
+
+export default LoginForm

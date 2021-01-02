@@ -1,6 +1,7 @@
-import React, {useState} from 'react'
+import React, { useState  }from 'react'
+import PropTypes from 'prop-types'
+import blogService from '../services/blogs'
 
-import blogService from "../services/blogs";
 const Blog = (props) => {
   const [blog, setBlog] = useState(props.blog)
   const blogStyle = {
@@ -13,7 +14,7 @@ const Blog = (props) => {
 
   const increaseLike = async(id) => {
     const likes = Number(blog.likes) + 1
-    const newBlog = {...blog, likes}
+    const newBlog = { ...blog, likes }
     delete newBlog.user
     const updatedBlog = await blogService.updateBlog(newBlog)
     setBlog(updatedBlog)
@@ -26,23 +27,30 @@ const Blog = (props) => {
   }
 
   const deleteBlog = async (blog) => {
-    const result = window.confirm(`Remove blog ${blog.title} by ${blog.author}`)
+    const result = window.confirm(`Remove blog ${ blog.title } by ${ blog.author }`)
     if (!result) return
     blogService.deleteBlog(blog.id)
+
     const updatedBlogs = props.blogs.filter(b => b.id !== blog.id)
-    props.setBlogs(updatedBlogs) 
+    props.setBlogs(updatedBlogs)
   }
+
   return (
-  <div style={blogStyle}>
-      <div>{blog.title}</div>
+    <div style={ blogStyle }>
+      <div>{ blog.title }</div>
       <div>
-        <p> {blog.url}</p>
-        <p>likes {blog.likes} <button onClick={() => increaseLike(blog.id)}>Like</button></p>
-        <p>{blog.author}</p>
-        <button onClick={() => deleteBlog(blog)}> remove</button>
+        <p> {blog.url }</p>
+        <p>likes {blog.likes  }<button onClick={ () => increaseLike(blog.id) }>Like</button></p>
+        <p>{ blog.author }</p>
+        <button onClick={ () => deleteBlog(blog) }> remove</button>
       </div>
-  </div>
+    </div>
   )
 }
 
+Blog.propTypes = {
+  setBlogs: PropTypes.func.isRequired,
+  blogs: PropTypes.array.isRequired,
+  blog: PropTypes.object.isRequired
+}
 export default Blog

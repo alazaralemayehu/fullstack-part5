@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Notification = ({ message, notificationType }) => {
+const Notification = ({  message, notificationType  }) => {
   console.log('here ')
 
   if (message === null) {
@@ -8,8 +8,8 @@ const Notification = ({ message, notificationType }) => {
   }
   console.log('here again')
   return (
-    <div className={notificationType}>
-      {message}
+    <div className={ notificationType }>
+      {message }
     </div>
   )
 }
