@@ -7,16 +7,31 @@ import LoginForm from './components/LoginForm'
 import Togglable from './components/Togglable'
 
 const BlogList = ({  blogs, setBlogs  }) => {
+  const increaseLike = async(blog) => {
+    const likes = Number(blog.likes) + 1
+    const newBlog = { ...blog, likes }
+    delete newBlog.user
+    const updatedBlog = await blogService.updateBlog(newBlog)
+    let sortedBlogs = blogs.filter(b =>  b.id !== blog.id)
+    sortedBlogs.push(updatedBlog)
+    sortedBlogs.sort(function(a,b) {
+      return (a.likes - b.likes)
+    })
+    setBlogs(sortedBlogs)
+  }
+
   return (
     <div>
       { blogs.map(blog =>
-        <Togglable key={ blog.id  }blog={ blog  }buttonLabel="show" negativeButtonLable="hide">
-          <Blog
-            key={ blog.id  }
-            blog={ blog  }
-            blogs={ blogs  }
-            setBlogs={ setBlogs  }/>
-        </Togglable>
+        // <Togglable key={ blog.id  }blog={ blog  }buttonLabel="show" negativeButtonLable="hide">
+        <Blog
+          key={ blog.id  }
+          blog={ blog  }
+          blogs={ blogs  }
+          setBlogs={ setBlogs  }
+          increaseLike={increaseLike}
+        />
+        // </Togglable>
       ) }
 
     </div>
@@ -52,6 +67,7 @@ const App = () => {
       blogService.setToken(user.token)
     }
   },[])
+
 
   const logout = () => {
     localStorage.clear()

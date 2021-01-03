@@ -3,7 +3,13 @@ import PropTypes from 'prop-types'
 import blogService from '../services/blogs'
 
 const Blog = (props) => {
-  const [blog, setBlog] = useState(props.blog)
+
+  const [visible, setVisible] = useState(false)
+  let blog = props.blog
+  const toggleVisibility = () => {
+    setVisible(!visible)
+  }
+
   const blogStyle = {
     paddingTop: 10,
     paddingLeft: 2,
@@ -12,19 +18,6 @@ const Blog = (props) => {
     marginBottom: 5
   }
 
-  const increaseLike = async(id) => {
-    const likes = Number(blog.likes) + 1
-    const newBlog = { ...blog, likes }
-    delete newBlog.user
-    const updatedBlog = await blogService.updateBlog(newBlog)
-    setBlog(updatedBlog)
-    let sortedBlogs = props.blogs.filter(blog =>  blog.id !== id)
-    sortedBlogs.push(updatedBlog)
-    sortedBlogs.sort(function(a,b) {
-      return (a.likes - b.likes)
-    })
-    props.setBlogs(sortedBlogs)
-  }
 
   const deleteBlog = async (blog) => {
     const result = window.confirm(`Remove blog ${ blog.title } by ${ blog.author }`)
@@ -36,21 +29,26 @@ const Blog = (props) => {
   }
 
   return (
-    <div style={ blogStyle }>
-      <div>{ blog.title }</div>
-      <div>
-        <p> {blog.url }</p>
-        <p>likes {blog.likes  }<button onClick={ () => increaseLike(blog.id) }>Like</button></p>
-        <p>{ blog.author }</p>
-        <button onClick={ () => deleteBlog(blog) }> remove</button>
+    <div style={ blogStyle } >
+      <div className="blogHeader">{ blog.title } {blog.author}
+        <button onClick={ toggleVisibility }> {visible ? 'hide' : 'show'}</button>
       </div>
+      {
+        visible?
+          (
+            <div className="blogDetail">
+              <p> {blog.url }</p>
+              <p>likes {blog.likes  }<button id="increaseLike" onClick={ () => props.increaseLike(blog) }>Like</button></p>
+              <p>{ blog.author }</p>
+              <button onClick={ () => deleteBlog(blog) }> remove</button>
+            </div>
+          ) : <div> </div>
+      }
     </div>
   )
 }
 
 Blog.propTypes = {
-  setBlogs: PropTypes.func.isRequired,
-  blogs: PropTypes.array.isRequired,
   blog: PropTypes.object.isRequired
 }
 export default Blog

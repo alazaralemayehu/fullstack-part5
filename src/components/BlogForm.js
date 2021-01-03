@@ -37,11 +37,12 @@ const BlogForm = ({ addBlog, setErrorMessage, setNotificationType }) => {
     }
   }
   return (
-    <div>
+    <div className="form-div">
       <form onSubmit={ createBlog }>
         <div>
           title
           <input
+            id = 'title'
             type="text"
             value={ title }
             name="title"
@@ -51,6 +52,7 @@ const BlogForm = ({ addBlog, setErrorMessage, setNotificationType }) => {
         <div>
           author
           <input
+            id = 'author'
             type="text"
             value={ author }
             name="author"
@@ -61,6 +63,7 @@ const BlogForm = ({ addBlog, setErrorMessage, setNotificationType }) => {
         <div>
           url
           <input
+            id='url'
             type="text"
             value={ url }
             name="url"

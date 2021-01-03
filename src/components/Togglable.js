@@ -14,7 +14,7 @@ const Togglable = React.forwardRef((props, ref) => {
   const getPropsDataToShow = (props) => {
     if (props.blog) {
       return (
-        <span>{ props.blog.title }</span>
+        <span>{ props.blog.title } { props.blog.author }</span>
       )
     }else {
       return null
@@ -30,13 +30,17 @@ const Togglable = React.forwardRef((props, ref) => {
   return (
     <div>
       <div style={ hideWhenVisible }>
-        {getPropsDataToShow(props) }
+        <div className="togglableHeader">
+          {getPropsDataToShow(props) }
+        </div>
         <button onClick={ toggleVisibility }> {props.buttonLabel  }</button>
       </div>
-      <div style={ showWhenVisible }>
-        {props.children }
-        <button onClick={ toggleVisibility }>{ props.negativeButtonLable }</button>
-      </div>
+      { visible ? (
+        <div style={ showWhenVisible } className="togglableDetail">
+          {props.children }
+          <button onClick={ toggleVisibility }>{ props.negativeButtonLable }</button>
+        </div>
+      ) : <div> </div> }
     </div>
   )
 })
