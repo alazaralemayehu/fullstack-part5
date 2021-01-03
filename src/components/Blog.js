@@ -22,16 +22,16 @@ const Blog = (props) => {
   const deleteBlog = async (blog) => {
     const result = window.confirm(`Remove blog ${ blog.title } by ${ blog.author }`)
     if (!result) return
-    blogService.deleteBlog(blog.id)
-
+    const response = await blogService.deleteBlog(blog.id)
+    if (!response) return
     const updatedBlogs = props.blogs.filter(b => b.id !== blog.id)
     props.setBlogs(updatedBlogs)
   }
 
   return (
-    <div style={ blogStyle } >
+    <div style={ blogStyle } className="blog">
       <div className="blogHeader">{ blog.title } {blog.author}
-        <button onClick={ toggleVisibility }> {visible ? 'hide' : 'show'}</button>
+        <button className="blogToggler" onClick={ toggleVisibility }> {visible ? 'hide' : 'show'}</button>
       </div>
       {
         visible?
@@ -40,7 +40,7 @@ const Blog = (props) => {
               <p> {blog.url }</p>
               <p>likes {blog.likes  }<button id="increaseLike" onClick={ () => props.increaseLike(blog) }>Like</button></p>
               <p>{ blog.author }</p>
-              <button onClick={ () => deleteBlog(blog) }> remove</button>
+              <button className="removeBlog" onClick={ () => deleteBlog(blog) }> remove</button>
             </div>
           ) : <div> </div>
       }

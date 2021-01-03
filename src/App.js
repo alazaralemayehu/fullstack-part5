@@ -21,7 +21,7 @@ const BlogList = ({  blogs, setBlogs  }) => {
   }
 
   return (
-    <div>
+    <div id="blogList">
       { blogs.map(blog =>
         // <Togglable key={ blog.id  }blog={ blog  }buttonLabel="show" negativeButtonLable="hide">
         <Blog
@@ -42,7 +42,7 @@ const BlogList = ({  blogs, setBlogs  }) => {
 const NavBar = (props) => {
   const { username, logout } = props
   return (
-    <p> {username  }logged in <button onClick={ logout }> logout</button> </p>
+    <p> { username } logged in <button id="logout" onClick={ logout }> logout</button> </p>
   )
 }
 

@@ -6,7 +6,6 @@ const Notification = ({  message, notificationType  }) => {
   if (message === null) {
     return null
   }
-  console.log('here again')
   return (
     <div className={ notificationType }>
       {message }

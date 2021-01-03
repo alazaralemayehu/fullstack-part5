@@ -23,7 +23,6 @@ const LoginForm = ({ setUser, setErrorMessage, setNotificationType }) => {
       setPassword('')
       blogService.setToken(user.token)
     }catch (exception) {
-      console.log('hello')
       setErrorMessage('wrong credentials')
       setNotificationType('error')
 
@@ -34,11 +33,15 @@ const LoginForm = ({ setUser, setErrorMessage, setNotificationType }) => {
     }
   }
   return (
-    <div>
+    <div id="login-form">
+      <h3>
+        Login
+      </h3>
       <form onSubmit={ handleLogin }>
         <div>
           username
           <input
+            id='username'
             type="text"
             value={ username }
             name="Username"
@@ -48,13 +51,14 @@ const LoginForm = ({ setUser, setErrorMessage, setNotificationType }) => {
         <div>
           password
           <input
+            id='password'
             type="password"
             value={ password }
             name="Password"
             onChange={ ({  target  }) => setPassword(target.value) }
           />
         </div>
-        <button type="submit">login</button>
+        <button id='login-button' type="submit">login</button>
       </form>
     </div>
   )
